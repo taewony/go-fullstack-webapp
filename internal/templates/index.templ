@@ -1,15 +1,23 @@
 // internal/template/index.templ
 package template
 
-templ Index() {
+import "github.com/taewony/go-fullstack-webapp/internal/models"
+
+templ Index(posts []models.Post) {
     <!DOCTYPE html>
     <html>
     <head>
-        <title>Chichat - Simple</title>
+        <title>Chitchat 게시판</title>
     </head>
     <body>
-        <h1>Chichat Messages</h1>
-        <p>This is a simple chitchat service.</p>
+        <h1>Chitchat 게시판</h1>
+        <ul>
+            for _, post := range posts {
+                <li>
+                    <strong>{ post.Author }:</strong> { post.Content }
+                </li>
+            }
+        </ul>
     </body>
     </html>
 }
