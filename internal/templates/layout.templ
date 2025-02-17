@@ -1,0 +1,32 @@
+package template
+
+import "github.com/taewony/go-fullstack-webapp/internal/models"
+
+templ Layout(threads []models.Thread) {
+
+	<!DOCTYPE html>
+	<html lang="en">
+	  <head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>ChitChat</title>
+		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static/css/font-awesome.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
+	  </head>
+	  <body>
+		@Navbar()
+
+		<div class="container">
+		  
+		  @Content(threads)
+		  
+		</div> <!-- /container -->
+		
+		<script src="/static/js/jquery-2.1.1.min.js"></script>
+		<script src="/static/js/bootstrap.min.js"></script>
+	  </body>
+	</html>
+
+}

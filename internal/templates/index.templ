@@ -15,7 +15,7 @@ templ Index(posts []models.Post) {
         <ul>
             for _, post := range posts {
                 <li>
-                    <strong>{ post.Author }:</strong> { post.Content }
+                    <strong>{ post.User().Name }:</strong> { post.Body }
                 </li>
             }
         </ul>
@@ -26,7 +26,7 @@ templ Index(posts []models.Post) {
                 <textarea class="form-control" name="topic" id="topic" placeholder="Thread topic here" rows="4"></textarea>
                 <br/>
                 <br/>
-                <button class="btn btn-lg btn-primary pull-right" type="button" hx-post="/post/create" hx-target="#topic" hx-trigger="click" hx-swap="innerHTML">Start this thread</button>
+                <button class="btn btn-lg btn-primary pull-right" type="button" hx-get="/thread" hx-target="#topic" hx-trigger="click" hx-swap="outerHTML">Start this thread</button>
             </div>
         </form>
 

@@ -222,7 +222,7 @@
 ### 4단계: Router/Handler 추가 및 templ 파일 정비
 
 1. **data 중심 web Server 설계**
-   ![]images/typical_web_application.png
+   ![Web Server 구조](static/images/web_app.png)
 
 2. **Router 및 Handler 추가:** main.go 내용을 간단히 하고, router.go 파일에 url에 handler 함수를 연결합니다.
    **main.go**  
@@ -362,4 +362,4 @@
 ---
 
 **Sources**  
-1. [https://qiita.com/aeleniumfor/items/c6a48840de36ba4d6ba6](https://qiita.com/aeleniumfor/items/c6a48840de36ba4d6ba6)
+1. [https://github.com/sausheong/gwp](https://github.com/sausheong/gwp)

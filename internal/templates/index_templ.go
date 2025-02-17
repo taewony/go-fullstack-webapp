@@ -43,9 +43,9 @@ func Index(posts []models.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var2 string
-			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(post.Author)
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(post.User().Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/index.templ`, Line: 18, Col: 41}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/index.templ`, Line: 18, Col: 46}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -56,9 +56,9 @@ func Index(posts []models.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(post.Content)
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(post.Body)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/index.templ`, Line: 18, Col: 68}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/index.templ`, Line: 18, Col: 70}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -69,7 +69,7 @@ func Index(posts []models.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</ul><form role=\"form\" id=\"post-form\"><div class=\"lead\">Start a new thread with the following topic</div><div class=\"form-group\"><textarea class=\"form-control\" name=\"topic\" id=\"topic\" placeholder=\"Thread topic here\" rows=\"4\"></textarea><br><br><button class=\"btn btn-lg btn-primary pull-right\" type=\"button\" hx-post=\"/post/create\" hx-target=\"#topic\" hx-trigger=\"click\" hx-swap=\"innerHTML\">Start this thread</button></div></form></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</ul><form role=\"form\" id=\"post-form\"><div class=\"lead\">Start a new thread with the following topic</div><div class=\"form-group\"><textarea class=\"form-control\" name=\"topic\" id=\"topic\" placeholder=\"Thread topic here\" rows=\"4\"></textarea><br><br><button class=\"btn btn-lg btn-primary pull-right\" type=\"button\" hx-get=\"/thread\" hx-target=\"#topic\" hx-trigger=\"click\" hx-swap=\"outerHTML\">Start this thread</button></div></form></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
