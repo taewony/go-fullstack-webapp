@@ -11,6 +11,8 @@ import (
 func main() {
 	// Initialize the in-memory SQLite3 database connection
 	models.InitDB()
+	// models.InsertInitialDB()
+
 	// Initialize the router
 	r := router.NewRouter()
 

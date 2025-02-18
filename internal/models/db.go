@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"crypto/sha1"
 	"fmt"
+	"time"
 
 	// _ "github.com/lib/pq"
 	"log"
@@ -99,4 +100,34 @@ func createUUID() (uuid string) {
 func Encrypt(plaintext string) (cryptext string) {
 	cryptext = fmt.Sprintf("%x", sha1.Sum([]byte(plaintext)))
 	return cryptext
+}
+
+func InsertInitialDB() {
+	var err error
+
+	// Insert initial data
+	_, err = Db.Exec(`
+        INSERT INTO users (uuid, name, email, password, created_at) VALUES (?, ?, ?, ?, ?)
+    `, createUUID(), "taewony", "taewony@gmail.com", Encrypt("password123"), time.Now())
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = Db.Exec(`
+        INSERT INTO sessions (uuid, email, user_id, created_at) VALUES (?, ?, ?, ?)
+    `, createUUID(), "taewony@gmail.com", 1, time.Now()) // Assuming user_id is 1
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = Db.Exec(`
+        INSERT INTO threads (uuid, topic, user_id, created_at) VALUES (?, ?, ?, ?)
+    `, createUUID(), "Sample Thread", 1, time.Now()) // Assuming user_id is 1
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = Db.Exec(`
+        INSERT INTO posts (uuid, body, user_id, thread_id, created_at) VALUES (?, ?, ?, ?, ?)
+    `, createUUID(), "This is a sample post body.", 1, 1, time.Now()) // Assuming user_id is 1 and thread_id is 1
+	if err != nil {
+		log.Fatal(err)
+	}
 }

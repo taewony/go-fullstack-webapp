@@ -8,9 +8,9 @@ import (
 	// templ "github.com/taewony/go-fullstack-webapp/internal/templates"
 )
 
-// GET /thread/list
+// GET /thread/new
 // Show the new thread form page
-func ThreadListHandler(writer http.ResponseWriter, request *http.Request) {
+func NewThreadHandler(writer http.ResponseWriter, request *http.Request) {
 	_, err := session(writer, request)
 	if err != nil {
 		http.Redirect(writer, request, "/login", 302)
@@ -44,9 +44,10 @@ func CreateThreadHandler(writer http.ResponseWriter, request *http.Request) {
 
 // GET /thread/{id}
 // Show the details of the thread, including the posts and the form to write a post
-func ThreadHandler(writer http.ResponseWriter, request *http.Request) {
-	vals := request.URL.Query()
-	uuid := vals.Get("id")
+func GetAThreadHandler(writer http.ResponseWriter, request *http.Request) {
+	// vals := request.URL.Query()
+	// uuid := vals.Get("id")
+	uuid := request.PathValue("id")
 	thread, err := models.ThreadByUUID(uuid)
 	if err != nil {
 		error_message(writer, request, "Cannot read thread")
@@ -84,7 +85,8 @@ func PostThread(writer http.ResponseWriter, request *http.Request) {
 		if _, err := user.CreatePost(thread, body); err != nil {
 			danger(err, "Cannot create post")
 		}
-		url := fmt.Sprint("/thread/read?id=", uuid)
+		url := fmt.Sprintf("/thread/%s", uuid)
+		fmt.Println(url)
 		http.Redirect(writer, request, url, 302)
 	}
 }

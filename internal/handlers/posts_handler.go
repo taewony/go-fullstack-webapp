@@ -7,11 +7,6 @@ import (
 	"github.com/taewony/go-fullstack-webapp/internal/models"
 )
 
-func PostsHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("PostsHandler")
-	// templ.Posts().Render(r.Context(), w)
-}
-
 // POST /thread/post : Create the post based on form data {body, uuid, }
 func CreatePostHandler(writer http.ResponseWriter, request *http.Request) {
 	sess, err := session(writer, request)
@@ -35,7 +30,7 @@ func CreatePostHandler(writer http.ResponseWriter, request *http.Request) {
 		if _, err := user.CreatePost(thread, body); err != nil {
 			danger(err, "Cannot create post")
 		}
-		url := fmt.Sprint("/thread/read?id=", uuid)
+		url := fmt.Sprintf("/thread/%s", uuid)
 		http.Redirect(writer, request, url, 302)
 	}
 }

@@ -19,7 +19,7 @@ templ Content(threads []models.Thread) {
 		<div class="panel-body">
 		  Started by { thread.User().Name } - { thread.CreatedAtDate() } - { strconv.Itoa(thread.NumReplies()) } posts.
 		  <div class="pull-right">
-			<a href="/thread/read?id={thread.Uuid}">Read more</a>
+			<a href="/thread/{thread.Uuid}">Read more</a>
 		  </div>
 		</div>
 	  </div>

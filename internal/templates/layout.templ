@@ -2,7 +2,7 @@ package template
 
 import "github.com/taewony/go-fullstack-webapp/internal/models"
 
-templ Layout(threads []models.Thread) {
+templ Layout(threads []models.Thread, loggedInstate bool) {
 
 	<!DOCTYPE html>
 	<html lang="en">
@@ -16,8 +16,9 @@ templ Layout(threads []models.Thread) {
         <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
 	  </head>
 	  <body>
-		@Navbar()
-
+	  	if !loggedInstate {
+			@NavbarPublic()
+		}
 		<div class="container">
 		  
 		  @Content(threads)

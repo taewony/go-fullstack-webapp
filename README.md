@@ -315,11 +315,10 @@
 | GET      | `/login`   | 기존 사용자 로그인 페이지  
 | POST     | `/authenticate`| 기존 사용자 인증 User(email,pswd), home("/") 페이지로 redirect
 | GET      | `/logout`  | 로그아웃 요청, home("/") 페이지로 redirect
-| GET      | `/thread/all` | thread list 보여주기
+| GET      | `/thread/new` | new thread 생성 페이지 보여주기
 | POST     | `/thread/create` | Thread(topic) 생성
 | GET      | `/thread/{thread_id}` | Show the details of the thread & posts, the form to write a post
 | POST     | `/thread/post` | post 생성 Post(body)
-|----------|------------|----------------------------------------------------------------
 
 - **CRUD 기능 확장:** 게시글 수정, 삭제 기능 추가
 - **UI 개선:** CSS 스타일 적용, 더 나은 폼 디자인, 목록 디자인 개선  
