@@ -222,7 +222,7 @@
 ### 4단계: Router/Handler 추가 및 templ 파일 정비
 
 1. **data 중심 web Server 설계**
-   ![Web Server 구조](static/images/web_app.png)
+   ![Web Server 구조](public/images/web_app.png)
 
 2. **Router 및 Handler 추가:** main.go 내용을 간단히 하고, router.go 파일에 url에 handler 함수를 연결합니다.
    **main.go**  
@@ -243,23 +243,22 @@
    **router.go**  
    ```go
    func NewRouter() *http.ServeMux {
-       r := http.NewServeMux()
-       r.HandleFunc("GET /", handlers.HomeHandler)
-       r.HandleFunc("GET /err", errorHandler)
-
-       r.HandleFunc("GET /login", handlers.LoginHandler)
-       r.HandleFunc("GET /logout", handlers.LogoutHandler)
-       r.HandleFunc("GET /signup", handlers.SignupHandler)
-       r.HandleFunc("POST /signup_account", handlers.SignupAccountHandler)
-       r.HandleFunc("POST /authenticate", handlers.AuthenticateHandler)
-
-       r.HandleFunc("GET /thread/", handlers.ThreadHandler)
-       r.HandleFunc("GET /thread/read", handlers.ThreadHandler)
-       r.HandleFunc("GET /thread/new", handlers.NewThreadHandler)
-       r.HandleFunc("POST /thread/create", handlers.CreateThreadHandler)
-
-       r.HandleFunc("POST /thread/post", handlers.CreatePostHandler)
-       return r
+    r := http.NewServeMux()
+	// home handlers
+	r.HandleFunc("/", handlers.HomeHandler)
+	r.HandleFunc("GET /err", handlers.ErrorHandler)
+	// user handlers
+	r.HandleFunc("GET /login", handlers.LoginHandler)
+	r.HandleFunc("GET /logout", handlers.LogoutHandler)
+	r.HandleFunc("GET /signup", handlers.SignupHandler)
+	r.HandleFunc("POST /signup", handlers.SignupAccountHandler)
+	r.HandleFunc("POST /authenticate", handlers.AuthenticateHandler)
+	// thread handlers
+	r.HandleFunc("GET /thread/list", handlers.ThreadListHandler)
+	r.HandleFunc("POST /thread/create", handlers.CreateThreadHandler)
+	r.HandleFunc("GET /thread/{id}", handlers.ThreadHandler)
+	r.HandleFunc("POST /thread/post", handlers.CreatePostHandler)
+    return r
    }
    ```
 
@@ -307,12 +306,27 @@
   - Thread—Representing a forum thread (a conversation among forum users)
   - Post—Representing a post (a message added by a forum user) within a thread
 
-- **CRUD 기능 확장:** 게시글 수정, 삭제 기능 추가  
+| HTTP 메서드| 패스         | 개요                (model data)
+|----------|------------|----------------------------------------------------------------
+| GET      | `/`        | home("/") 페이지
+| GET      | `/err`     | Error message 출력
+| GET      | `/signup`  | 신규 사용자 등록 페이지   
+| POST     | `/signup`  | 신규 사용자 등록 User(name,email,pswd), login 페이지로 redirect
+| GET      | `/login`   | 기존 사용자 로그인 페이지  
+| POST     | `/authenticate`| 기존 사용자 인증 User(email,pswd), home("/") 페이지로 redirect
+| GET      | `/logout`  | 로그아웃 요청, home("/") 페이지로 redirect
+| GET      | `/thread/all` | thread list 보여주기
+| POST     | `/thread/create` | Thread(topic) 생성
+| GET      | `/thread/{thread_id}` | Show the details of the thread & posts, the form to write a post
+| POST     | `/thread/post` | post 생성 Post(body)
+|----------|------------|----------------------------------------------------------------
+
+- **CRUD 기능 확장:** 게시글 수정, 삭제 기능 추가
 - **UI 개선:** CSS 스타일 적용, 더 나은 폼 디자인, 목록 디자인 개선  
 - **유효성 검사:** 폼 입력 값에 대한 유효성 검사 추가 (서버 & 클라이언트)  
 - **페이지네이션:** 게시글 목록 페이지네이션 기능 추가  
-- **검색 기능:** 게시글 검색 기능 추가  
-- **사용자 인증/인가:** (추후) 사용자 계정, 로그인/로그아웃, 권한 관리 기능 추가
+- **검색 기능:** 게시글 검색 기능 추가
+- **사용자 인증/인가:** (추후) JWT 토큰 이용한 사용자 계정, 로그인/로그아웃, 권한 관리 기능 추가
 
 ### 6단계: PostgreSQL 및 pgx 드라이버로 전환
 
@@ -356,8 +370,6 @@
 - **디버깅:** VS Code 디버깅 기능을 적극적으로 활용하여 코드 오류를 찾고 수정하는 연습을 하세요.  
 - **Go 문서 및 온라인 자료 활용:** Go 공식 문서 ([https://go.dev/](https://go.dev/)), net/http 패키지 문서, sqlx 문서, templ 문서, HTMX 문서 등을 참고하고, Stack Overflow, Go Forum 등의 온라인 커뮤니티에서 정보를 얻으세요.  
 - **꾸준한 학습:** 웹 개발은 꾸준한 학습과 실습이 중요합니다. chitchat 서비스 개발 외에도 다양한 프로젝트를 만들어 보면서 실력을 향상시켜 보세요.
-
-이 가이드라인을 따라 차근차근 개발해 나가시면 "GO Web Programming" 책의 chitchat 서비스를 성공적으로 구현하고, 웹 개발 기본기를 튼튼하게 다질 수 있을 것입니다. 궁금한 점이나 막히는 부분은 언제든지 다시 질문해주세요! 😊
 
 ---
 

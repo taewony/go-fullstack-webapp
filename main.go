@@ -6,14 +6,11 @@ import (
 
 	"github.com/taewony/go-fullstack-webapp/internal/models"
 	"github.com/taewony/go-fullstack-webapp/internal/router"
-
-	_ "modernc.org/sqlite"
 )
 
 func main() {
 	// Initialize the in-memory SQLite3 database connection
 	models.InitDB()
-
 	// Initialize the router
 	r := router.NewRouter()
 

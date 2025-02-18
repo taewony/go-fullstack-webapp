@@ -2,17 +2,33 @@ package handlers
 
 import (
 	"net/http"
+	// templ "github.com/taewony/go-fullstack-webapp/internal/templates"
 
 	"github.com/taewony/go-fullstack-webapp/internal/models"
-	templ "github.com/taewony/go-fullstack-webapp/internal/templates"
 )
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	posts, err := models.Posts()
+// GET /err?msg=
+// shows the error message page
+func ErrorHandler(writer http.ResponseWriter, request *http.Request) {
+	vals := request.URL.Query()
+	_, err := session(writer, request)
 	if err != nil {
-		http.Error(w, "Failed to get posts", http.StatusInternalServerError)
-		return
+		generateHTML(writer, vals.Get("msg"), "layout", "public.navbar", "error")
+	} else {
+		generateHTML(writer, vals.Get("msg"), "layout", "private.navbar", "error")
 	}
+}
 
-	templ.Index(posts).Render(r.Context(), w)
+func HomeHandler(writer http.ResponseWriter, request *http.Request) {
+	threads, err := models.Threads()
+	if err != nil {
+		error_message(writer, request, "Cannot get threads")
+	} else {
+		_, err := session(writer, request)
+		if err != nil {
+			generateHTML(writer, threads, "layout", "public.navbar", "index")
+		} else {
+			generateHTML(writer, threads, "layout", "private.navbar", "index")
+		}
+	}
 }
