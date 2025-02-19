@@ -1,0 +1,38 @@
+package components
+
+import "github.com/taewony/go-fullstack-webapp/internal/models"
+
+// {{ define "content" }}
+templ PrivateThreadTemp(thread models.Thread, posts []models.Post) {
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="lead"> <i class="fa fa-comment-o"></i> { thread.Topic }</span>
+      <div class="pull-right">
+        Started by { thread.UserName() } - { thread.CreatedAtDate() }
+      </div>
+    </div>
+    
+    for _, post := range posts {
+      postUser := post.User()
+      <div class="panel-body">
+        <span class="lead"> <i class="fa fa-comment"></i> { post.Body }</span>
+        <div class="pull-right">
+          { post.UserName() } - { post.CreatedAtDate() }
+        </div>    
+      </div>
+    }
+  </div>
+
+  <div class="panel panel-info">
+    <div class="panel-body">
+     <form role="form" action="/thread/post" method="post">
+       <div class="form-group">
+         <textarea class="form-control" name="body" id="body" placeholder="Write your reply here" rows="3"></textarea>
+         <input type="hidden" name="uuid" value="{{ .Uuid }}">
+         <br/>
+         <button class="btn btn-primary pull-right" type="submit">Reply</button>
+       </div>
+     </form>
+     </div>
+  </div>
+}

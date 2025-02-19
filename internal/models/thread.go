@@ -1,6 +1,7 @@
 package models
 
 import (
+	"strconv"
 	"time"
 )
 
@@ -43,6 +44,10 @@ func (thread *Thread) NumReplies() (count int) {
 	}
 	rows.Close()
 	return
+}
+func (thread *Thread) NumRepliesStr() string {
+	numReplies := thread.NumReplies()
+	return strconv.Itoa(numReplies)
 }
 
 // get posts to a thread
@@ -121,10 +126,26 @@ func (thread *Thread) User() (user User) {
 	return
 }
 
+// Get the user name who started this thread
+func (thread *Thread) UserName() string {
+	user := User{}
+	Db.QueryRow("SELECT id, uuid, name, email, created_at FROM users WHERE id = $1", thread.UserId).
+		Scan(&user.Id, &user.Uuid, &user.Name, &user.Email, &user.CreatedAt)
+	return user.Name
+}
+
 // Get the user who wrote the post
 func (post *Post) User() (user User) {
 	user = User{}
 	Db.QueryRow("SELECT id, uuid, name, email, created_at FROM users WHERE id = $1", post.UserId).
 		Scan(&user.Id, &user.Uuid, &user.Name, &user.Email, &user.CreatedAt)
 	return
+}
+
+// Get the user name who wrote the post
+func (post *Post) UserName() string {
+	user := User{}
+	Db.QueryRow("SELECT id, uuid, name, email, created_at FROM users WHERE id = $1", post.UserId).
+		Scan(&user.Id, &user.Uuid, &user.Name, &user.Email, &user.CreatedAt)
+	return user.Name
 }

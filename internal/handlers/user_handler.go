@@ -3,20 +3,29 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/taewony/go-fullstack-webapp/internal/components"
 	"github.com/taewony/go-fullstack-webapp/internal/models"
 )
 
 // GET /login
 // Show the login page
 func LoginHandler(writer http.ResponseWriter, request *http.Request) {
-	t := parseTemplateFiles("login.layout", "public.navbar", "login")
-	t.Execute(writer, nil)
+	if request.Header.Get("HX-Request") == "true" {
+		components.LoginFormTempl().Render(request.Context(), writer)
+	} else {
+		t := parseTemplateFiles("login.layout", "public.navbar", "login")
+		t.Execute(writer, nil)
+	}
 }
 
 // GET /signup
 // Show the signup page
 func SignupHandler(writer http.ResponseWriter, request *http.Request) {
-	generateHTML(writer, nil, "login.layout", "public.navbar", "signup")
+	if request.Header.Get("HX-Request") == "true" {
+		components.SignupFormTempl().Render(request.Context(), writer)
+	} else {
+		generateHTML(writer, nil, "login.layout", "public.navbar", "signup")
+	}
 }
 
 // POST /signup
@@ -34,7 +43,7 @@ func SignupAccountHandler(writer http.ResponseWriter, request *http.Request) {
 	if err := user.Create(); err != nil {
 		danger(err, "Cannot create user")
 	}
-	http.Redirect(writer, request, "/login", 302)
+	http.Redirect(writer, request, "/login", http.StatusFound)
 }
 
 // POST /authenticate
@@ -56,9 +65,9 @@ func AuthenticateHandler(writer http.ResponseWriter, request *http.Request) {
 			HttpOnly: true,
 		}
 		http.SetCookie(writer, &cookie)
-		http.Redirect(writer, request, "/", 302)
+		http.Redirect(writer, request, "/", http.StatusFound)
 	} else {
-		http.Redirect(writer, request, "/login", 302)
+		http.Redirect(writer, request, "/login", http.StatusFound)
 	}
 
 }

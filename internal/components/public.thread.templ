@@ -1,0 +1,27 @@
+package components
+
+import "github.com/taewony/go-fullstack-webapp/internal/models"
+
+// {{ define "content" }}
+templ PublicThreadTempl(thread models.Thread, posts []models.Post) {
+// thread.CreatedAt.Format("Jan 2, 2006 at 3:04pm")
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="lead"> <i class="fa fa-comment-o"></i> { thread.Topic }</span>
+    <div class="pull-right">
+      Started by { thread.UserName() } - { thread.CreatedAtDate() }
+    </div>
+
+  </div>
+  
+  for _, post := range posts {
+    <div class="panel-body">
+      <span class="lead"> <i class="fa fa-comment"></i> { post.Body }</span>
+      <div class="pull-right">
+        { post.UserName() } - { post.CreatedAtDate() }
+      </div>
+    </div>
+  }
+
+  </div>
+}

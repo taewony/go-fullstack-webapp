@@ -13,7 +13,7 @@ func NewRouter() *http.ServeMux {
 
 	// home handlers
 	r.HandleFunc("/", handlers.HomeHandler)
-	// r.HandleFunc("/", handlers.IndexHandler)
+	r.HandleFunc("/index", handlers.IndexHandler)
 	r.HandleFunc("GET /err", handlers.ErrorHandler)
 
 	// user handlers

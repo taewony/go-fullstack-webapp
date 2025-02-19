@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/taewony/go-fullstack-webapp/internal/models"
-	// templ "github.com/taewony/go-fullstack-webapp/internal/templates"
 )
 
 // GET /thread/new
